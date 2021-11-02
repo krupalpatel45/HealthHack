@@ -1,4 +1,4 @@
-# bmi_calculator
+# MVP#1
 
 A new Flutter project.
 
