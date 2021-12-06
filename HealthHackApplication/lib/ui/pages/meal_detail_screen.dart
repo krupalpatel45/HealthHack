@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:healthhack/model/meal.dart';
+import 'package:healthhack/utils/utils.dart';
 
 class MealDetailScreen extends StatelessWidget {
   final Meal meal;
 
-  const MealDetailScreen({Key key, this.meal}) : super(key: key);
+  const MealDetailScreen({Key? key, required this.meal}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +17,23 @@ class MealDetailScreen extends StatelessWidget {
           SliverAppBar(
             snap: true,
             floating: true,
+            pinned: true,
+            title: Text(
+              meal.name.toUpperCase(),
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 14,
+                color: Colors.white,
+              ),
+            ),
             backgroundColor: const Color(0xFF200087),
             expandedHeight: 300,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(40))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40))),
             flexibleSpace: FlexibleSpaceBar(
               background: ClipRRect(
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(40)),
                 child: Image.asset(
                   meal.imagePath,
                   fit: BoxFit.cover,
@@ -62,7 +75,10 @@ class MealDetailScreen extends StatelessWidget {
                           ),
                           Text(
                             "${meal.kiloCaloriesBurnt} kcal",
-                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
                           ),
                         ],
                       ),
@@ -81,7 +97,10 @@ class MealDetailScreen extends StatelessWidget {
                           ),
                           Text(
                             "${meal.timeTaken} mins",
-                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 16),
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
                           )
                         ],
                       ),
@@ -140,12 +159,26 @@ class MealDetailScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                  padding:
+                      const EdgeInsets.only(left: 16, right: 16, bottom: 32),
                   child: Text(
                     meal.preparation,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  top:false,
+                  bottom: true,
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Utils.setCalorie(int.parse(meal.kiloCaloriesBurnt));
+                        Get.back();
+                      },
+                      child: Text('Consume'),
                     ),
                   ),
                 ),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:healthhack/utils/utils.dart';
+import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
-  final double goalCompleted = 0.7;
+  final double goalCompleted;
+  const RadialProgress({Key? key,required this.goalCompleted}) : super(key: key);
+
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -10,17 +14,19 @@ class RadialProgress extends StatefulWidget {
 
 class _RadialProgressState extends State<RadialProgress>
     with SingleTickerProviderStateMixin {
-  AnimationController _radialProgressAnimationController;
-  Animation<double> _progressAnimation;
+  late AnimationController _radialProgressAnimationController;
+  late Animation<double> _progressAnimation;
   final Duration fadeInDuration = Duration(milliseconds: 500);
   final Duration fillDuration = Duration(seconds: 2);
 
   double progressDegrees = 0;
   var count = 0;
 
+
   @override
   void initState() {
     super.initState();
+
     _radialProgressAnimationController =
         AnimationController(vsync: this, duration: fillDuration);
     _progressAnimation = Tween(begin: 0.0, end: 360.0).animate(CurvedAnimation(
@@ -70,8 +76,7 @@ class _RadialProgressState extends State<RadialProgress>
                 height: 10.0,
               ),
               Text(
-                '1.225',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  NumberFormat.compact().format(Utils.getCalorie),
               ),
               /*
               Text(

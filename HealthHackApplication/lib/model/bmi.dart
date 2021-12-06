@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhack/utils/utils.dart';
 
 
 class BMI extends StatefulWidget {
@@ -14,10 +15,10 @@ class _BMIState extends State<BMI> {
       double weightInlbs = double.parse(_weightController.text);
 
       double heightConvertedInches =
-          double.parse(_chosenValueFeet); //height converted from feet to inch
+          double.parse(_chosenValueFeet!); //height converted from feet to inch
 
       double heightInches =
-          double.parse(_chosenValueInches); //height converted from feet to inch
+          double.parse(_chosenValueInches!); //height converted from feet to inch
 
       double _convertedHeight = (heightConvertedInches * 12) + heightInches;
 
@@ -28,15 +29,18 @@ class _BMIState extends State<BMI> {
       _result = -1;
     }
 
+
     // This section will check for the error statements
     setState(() {
-      if (_result > 0 && _result < 18.5) {
+      final double result = _result!;
+      Utils.setBMI(result);
+      if (result > 0 && result < 18.5) {
         _message = "Underweight";
-      } else if (_result > 18.5 && _result < 25) {
+      } else if (result > 18.5 && result < 25) {
         _message = "Healthy Weight Range";
-      } else if (_result > 25 && _result < 30) {
+      } else if (result > 25 && result < 30) {
         _message = "Over Weight";
-      } else if (_result > 30 && _result < 1000) {
+      } else if (result > 30 && result < 1000) {
         _message = "Severely Weight";
       } else {
         String errorMessage = "Please enter ";
@@ -51,6 +55,7 @@ class _BMIState extends State<BMI> {
         }
         _message = errorMessage;
       }
+
     });
   }
 
@@ -62,15 +67,16 @@ class _BMIState extends State<BMI> {
     if (_chosenValueInches == null) {
       return false;
     }
+    // ignore: unnecessary_null_comparison
     if (_weightController.text == null) {
       return false;
     }
     return true;
   }
 
-  String _chosenValueFeet;
-  String _chosenValueInches;
-  double _result;
+  String? _chosenValueFeet;
+  String? _chosenValueInches;
+  double? _result;
   String _message = "";
   String _errors = "";
 
@@ -79,6 +85,7 @@ class _BMIState extends State<BMI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE9E9E9),
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
@@ -105,10 +112,8 @@ class _BMIState extends State<BMI> {
                               child: Text(value),
                             );
                           }).toList(),
-                          hint: Text(
-                              "Feet                                                 "),
-
-                          onChanged: (String value) {
+                          hint: Text("Feet "),
+                          onChanged: (String? value) {
                             setState(() {
                               _chosenValueFeet = value;
                             });
@@ -143,7 +148,7 @@ class _BMIState extends State<BMI> {
                           hint: Text(
                               "Inches                                                 "),
 
-                          onChanged: (String value2) {
+                          onChanged: (String? value2) {
                             setState(() {
                               _chosenValueInches = value2;
                             });
@@ -174,7 +179,7 @@ class _BMIState extends State<BMI> {
                 Text(
                   _result == null || _result == -1
                       ? " "
-                      : "${_result.toStringAsFixed(2)}",
+                      : "${_result!.toStringAsFixed(2)}",
                   style: TextStyle(
                     color: Colors.redAccent,
                     fontSize: 19.4,
